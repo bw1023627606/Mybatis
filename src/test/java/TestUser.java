@@ -100,4 +100,27 @@ public class TestUser {
         }
     }
 
+
+    @Test
+    public void testGetUserIf(){
+        //读取配置文件
+        InputStream inputStream;
+        try {
+            inputStream = Resources.getResourceAsStream("userMapConfig.xml");
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+            UserDao userDao = sqlSession.getMapper(UserDao.class);
+            User user = new User();
+            user.setUsername("张");
+            List<User> list = userDao.getUserIf(user);
+            for (User user1 : list) {
+                System.out.println(user1);
+            }
+            sqlSession.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -39,4 +39,34 @@ public class TestOrder {
             }
         }
     }
+
+
+    @Test
+    public void testGetOrderIf(){
+        {
+            //读取配置文件
+            InputStream inputStream;
+            try {
+                inputStream = Resources.getResourceAsStream("userMapConfig.xml");
+                SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+                SqlSession sqlSession = sqlSessionFactory.openSession();
+                OrderDao orderDao = sqlSession.getMapper(OrderDao.class);
+                Order order = new Order();
+
+                User user = new User();
+                user.setId(10);
+                order.setUser(user);
+                List<Order> list= orderDao.getOrderIf(order);
+                for (Order order1 : list) {
+                    System.out.println(order1);
+                    System.out.println(order1.getUser());
+                }
+                sqlSession.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }
